@@ -1,8 +1,6 @@
 % Full Thermo-Fluid in-house code developed to simulate internal combustion engine
-
 % Code written from scratch by Alisson Vinicius Brito Lopes as part of M.Sc. in
 % Thermal and Fluid Science during the years of 2013-2014 at UNICAMP-Brazil
-
 
 % crackshaft delta degree used for numerical integration
 deltathetap=0.01; 
@@ -13,7 +11,7 @@ r=17;% Compression ratio
 phi=0.8;% fuel/air equivalence ratio
 Tw=450;% Engine wall (surface) temperature . 
 thetaij=350;% Angle of injection start
-thetab=75 ; % combustion duration. 15∞ pre-mixtre phase and 60∞ difusive phase.
+thetab=75 ; % combustion duration. 15¬∞ pre-mixtre phase and 60¬∞ difusive phase.
 
 %Dimensionless lift/diameter ratio
 YDmaxe=0.30; % Maximum YD exhasut valve
@@ -27,16 +25,16 @@ Di=48.88/1000; % intake valve diameter estimated based on TAYLOR for a Flame cyl
 
 %Valve timing angles
 % Intake
-thetafva=930; %Intake valve closing angle - 30∞ after BDC
-thetaava=700; %Intake valve opening - 30∞ before TDC
+thetafva=930; %Intake valve closing angle - 30¬∞ after BDC
+thetaava=700; %Intake valve opening - 30¬∞ before TDC
 
 % Exhaust
-thetaave=510; %Exhaust valve opening - 30∞ before BDC
-thetafve=725; %Exhaust valve closing - 10 ∞ after TDC
+thetaave=510; %Exhaust valve opening - 30¬∞ before BDC
+thetafve=725; %Exhaust valve closing - 10 ¬∞ after TDC
 
 % Model initial guessings
 f=0.05;% Residual gas fraction 
-p1=0.9*10^5 ;% Initial pressure [N/m≤]
+p1=0.9*10^5 ;% Initial pressure [N/m¬≤]
 T1=330; % Initial temperature in K
 
 % indexes  
@@ -55,20 +53,15 @@ jej=1;
 
 %Politropic compression
 pf=[];  Vfcp=[];    thetacp=[]; z1=[];  nep=[]%
-
 % Combustion
 pc=[];  Tc=[];  Vc=[];  dQdtheta=[];    dQdthetaw=[];   dPdtheta=[];    dTdtheta=[];    dWdtheta=[] 
 yc=[];  Awc=[]; thetac=[];  nx=[];  
-
 % Politropic expansion
 pfe=[];      Vep=[]; ne=[]%
-
 % Exhaust process 
 p_cyle=[];   Ve=[]; %
-
 % Valve overlapping process
 p_cylo=[];   Vo=[];%
-
 %Intake process
 p_cyla=[];   Vi=[];% 
 
@@ -83,13 +76,11 @@ tol3=1e-6;
 %%%% Main loop that tests the convergence of the entire model %%%%
 
 while ( ER1>=tol1) && (ER2>=tol2 )&& (ER3>=tol3)
-
 RPM=1800; 
 phi=0.82;
 Tw=450;
 thetaij=350;
 thetab=75 ; 
-
 %Geometry of the MWM D220-4 Diesel Engine
 b=0.102;% Bore (m)
 curso=0.120; 
@@ -116,7 +107,7 @@ omega=RPM*pi/30; % Engine speed RAD/S
 upmean=omega*stroke/pi;% Piston velocity
 
 % Initial condition
-theta1=thetafva; % Initial angle, piston 30∞ up BDC.
+theta1=thetafva; % Initial angle, piston 30¬∞ up BDC.
 V1=Vd/(r-1) + Vd/2*(RR+1-cos(theta1*pi/180)-((RR^2-(sin(theta1*pi/180).^2)).^0.5));
 
 Vthetafva=V1;
@@ -159,7 +150,7 @@ ii=ii+1;
 end
 
 % Handerberg parameters
-pp(1)=100e3 ;% Pressure at the BDC [N/m≤] - initial guessing
+pp(1)=100e3 ;% Pressure at the BDC [N/m¬≤] - initial guessing
 TT(1)=300; % Temperature at the BDC [K] - initial guessing
 thetapms=360;
 thetapmi=180;
@@ -232,7 +223,7 @@ S2=spp*mass1;
 p3=pf(z1);% Pressure after the ignition delay period and before the combustion start
 T3=Tf(z1);% Temperature after the ignition delay period and before the combustion start
 
-% 2™ part - Heat release using a double Wiebe function - parameters calibrated from experimental data
+% 2¬™ part - Heat release using a double Wiebe function - parameters calibrated from experimental data
 
 [x,mf1,dxdtheta,dQdthetac,nx,nx2,thetafq]=wiebeduplateste(mf,thetaic,PCI,deltathetap); % Double Wiebe function
 
@@ -278,10 +269,10 @@ dQdthetaw(y)=hh(y)*Awc(y)*(Tc(y)-Tw)*n3;
 dQdtheta(y)=dQdthetac(y)- dQdthetaw(y);
 dVdthetan(y+1)=(Vc(y+1)-Vc(y))/deltathetap;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Integration of the ODE set (dP, dT and dW) for the combustion phase    %% 
-%         BUTCHER'S RUNGE KUTTA 5 (FIFTH) ORDER          %% 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         BUTCHER'S RUNGE KUTTA 5 (FIFTH) ORDER                       %%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 k1= ((gammaeq(y)-1)/Vc(y))*(dQdthetac(y)-hh(y)*Awc(y)*(Tc(y)-Tw)*n3)-(gammaeq(y)*pc(y)/Vc(y))*(Vc(y+1)-Vc(y))/deltathetap;
 b1=(1/(mass1*Req(y)))*(pc(y)*(Vc(y+1)-Vc(y))/deltathetap+Vc(y)*k1);
@@ -485,7 +476,7 @@ dVdt(jee)=dVdthetae(jee);
 Cdb(jee)=-1.5*YDe(jee)+ 1;
 
 
-% Integration of the ODE set for the open phase
+% Integration
 if p_cyle(jee)>pe
     
     
@@ -537,10 +528,10 @@ end
 
 end
 
-% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'blue','linewidth',1.6);title('PRESS√O AP”S AVE'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red','linewidth',1.6);title('TEMPERATURA AP”S AVE'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'blue','linewidth',1.6);title('PRESS√ÉO AP√ìS AVE'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red','linewidth',1.6);title('TEMPERATURA AP√ìS AVE'),grid on,hold on
 % figure;plot(thetae(1:(nx4+1)),-dmdte(1:(nx4+1)),'blue','linewidth',1.6);title('DMDT'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'red','linewidth',1.6);title('VARIA«√O DA MASSA NO CILINDRO'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'red','linewidth',1.6);title('VARIA√á√ÉO DA MASSA NO CILINDRO'),grid on,hold on
 
 while ji<=nx5+1
 Vi(ji)=Vd/(r-1) + Vd/2*(RR +1-cos(thetai(ji)*pi/180)-((RR^2-(sin(thetai(ji)*pi/180).^2)).^0.5));
@@ -589,7 +580,7 @@ dVdti(jei)=dVdthetai(jei);
 
 if padm>p_cyla(jei)
      
-    if (p_cyla(jei)/padm)<=((2/(kint(jei)+1))^(kint(jei)/(kint(jei)-1))) % ESCOAMENTO S‘NICO / SUPERSONICO
+    if (p_cyla(jei)/padm)<=((2/(kint(jei)+1))^(kint(jei)/(kint(jei)-1))) % ESCOAMENTO S√îNICO / SUPERSONICO
     
      dmdti(jei)=((Cdi(jei)*Aeffi(jei)*padm/sqrt(Rar*Tadm))*sqrt(kint(jei))*((2/(kint(jei)+1))^((kint(jei)+1)/(2*(kint(jei)-1)))))*n3;
         
@@ -599,7 +590,7 @@ if padm>p_cyla(jei)
         
     end
     
-    else  % p_cyl È MAIOR que padm
+    else  % p_cyl √© MAIOR que padm
             
        if (padm/p_cyla(jei))<=((2/(kcili(jei)+1))^(kcili(jei)/(kcili(jei)-1)))
            
@@ -636,7 +627,7 @@ end
         
 end
 
-% Otherwise Compute the Overlapping %
+% Otherwise Compute the Overlapping phase %
 
 else
 
@@ -672,7 +663,7 @@ hhee(jee)=(khohe*(Ve(jee)^(-0.06))*((p_cyle(jee)/100000)^(0.8))*(T_cyle(jee)^(-0
 
 %Nishiwaki
 
-hhe(jee)=(45.2*(b^(-0.422))*((upmean*((p_cyle(jee)/100000)/0.9807))^(0.578))*(T_cyle(jee))^(-0.131))*1.161111; % TRANSFORMA«√O DE KCAL/H PARA J/S
+hhe(jee)=(45.2*(b^(-0.422))*((upmean*((p_cyle(jee)/100000)/0.9807))^(0.578))*(T_cyle(jee))^(-0.131))*1.161111; % TRANSFORMA√á√ÉO DE KCAL/H PARA J/S
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 dQdthetawe(jee)=(hhe(jee)*Awe(jee)*(T_cyle(jee)-Tw))*n3;
@@ -684,7 +675,7 @@ Cdb(jee)=-1.5*YDe(jee)+ 1;
  
 if p_cyle(jee)>pe
     
-     if (pe/p_cyle(jee))<=((2/(k_cyl(jee)+1))^(k_cyl(jee)/(k_cyl(jee)-1))) % ESCOAMENTO S‘NICO / SUPERSONICO
+     if (pe/p_cyle(jee))<=((2/(k_cyl(jee)+1))^(k_cyl(jee)/(k_cyl(jee)-1))) % ESCOAMENTO S√îNICO / SUPERSONICO
     
         dmdte(jee)=-((Cde(jee)*Aeffe(jee)*p_cyle(jee)/sqrt(Reqe(jee)*T_cyle(jee)))*sqrt(k_cyl(jee))*((2/(k_cyl(jee)+1))^((k_cyl(jee)+1)/(2*(k_cyl(jee)-1)))))*n3;
         
@@ -694,7 +685,7 @@ if p_cyle(jee)>pe
         
     end
     
-    else  % p_cyl È MENOR que p_exh
+    else  % p_cyl √© MENOR que p_exh
   
        if (p_cyle(jee)/pe)<=((2/(k_cyl(jee)+1))^(k_cyl(jee)/(k_cyl(jee)-1)))
            
@@ -729,7 +720,7 @@ end
 
 end
 
-%OVERLAPPING PERIOD
+% OVERLAPPING PERIOD
 
 mee(1)=0;
 mei(1)=0;
@@ -767,7 +758,7 @@ har= 300.19*10^3;
 uar= 214.07*10^3; 
 cpar= 1.005*10^3; 
 cvar= 0.718*10^3; 
-kint(jo)=cpar/cvar; % Kint dos gases no coletor de adimiss„o;
+kint(jo)=cpar/cvar; % Kint dos gases no coletor de adimiss√£o;
 phoar=1.184; % W
 var=1/phoar; % SHAPIRO MORAN
 
@@ -777,7 +768,7 @@ a1o=1.4;
 hho(jo)=(khoho*(Vo(jo)^(-0.06))*((p_cylo(jo)/100000)^(0.8))*(T_cylo(jo)^(-0.4))*(upmean+a1o)^(0.8));
  
 %NISHIWAKI
-hhio(jo)=(584*(b^(-0.193))*((upmean*((p_cylo(jo)/100000)/0.9807))^(0.807))*(T_cylo(jo))^(-0.534))*1.161111; % TRANSFORMA«√O DE KCAL/H PARA J/S
+hhio(jo)=(584*(b^(-0.193))*((upmean*((p_cylo(jo)/100000)/0.9807))^(0.807))*(T_cylo(jo))^(-0.534))*1.161111; % TRANSFORMA√á√ÉO DE KCAL/H PARA J/S
 
 dQdthetawo(jo)=(hho(jo)*Awo(jo)*(T_cylo(jo)-Tw))*n3;
 dQdthetao(jo)= - dQdthetawo(jo);
@@ -787,7 +778,7 @@ dVdto(jo)=dVdthetao(jo);
  
 if padm>p_cylo(jo)
 
-    if (p_cylo(jo)/padm)<=((2/(kint(jo)+1))^(kint(jo)/(kint(jo)-1))) % ESCOAMENTO S‘NICO / SUPERSONICO
+    if (p_cylo(jo)/padm)<=((2/(kint(jo)+1))^(kint(jo)/(kint(jo)-1))) % ESCOAMENTO S√îNICO / SUPERSONICO
     
      dmdtio(jo)=((Cdi(jo)*Aeffi(jo)*padm/sqrt(Rar*Tadm))*sqrt(kint(jo))*((2/(kint(jo)+1))^((kint(jo)+1)/(2*(kint(jo)-1)))))*n3;
         
@@ -797,7 +788,7 @@ if padm>p_cylo(jo)
      
     end  
     
-    else  % p_cyl È MAIOR que padm
+    else  % p_cyl √© MAIOR que padm
         
        if (padm/p_cylo(jo))<=((2/(kcilo(jo)+1))^(kcilo(jo)/(kcilo(jo)-1)))           
       
@@ -815,7 +806,7 @@ end
 
 if p_cylo(jo)>pe    
    
-    if (pe/p_cylo(jo))<=((2/(kcilo(jo)+1))^(kcilo(jo)/(kcilo(jo)-1))) % ESCOAMENTO S‘NICO / SUPERSONICO
+    if (pe/p_cylo(jo))<=((2/(kcilo(jo)+1))^(kcilo(jo)/(kcilo(jo)-1))) % ESCOAMENTO S√îNICO / SUPERSONICO
     
         dmdteo(jo)=-((Cde(jfo)*Aeffe(jfo)*p_cylo(jo)/sqrt(Reqeo(jo)*T_cylo(jo)))*sqrt(kcilo(jo))*((2/(kcilo(jo)+1))^((kcilo(jo)+1)/(2*(kcilo(jo)-1)))))*n3;
         
@@ -825,7 +816,7 @@ if p_cylo(jo)>pe
         
     end
     
-    else  % p_cyl È MENOR que p_exh
+    else  % p_cyl √© MENOR que p_exh
             
         if (p_cylo(jo)/pe)<=((2/(kcilo(jo)+1))^(kcilo(jo)/(kcilo(jo)-1)))
            
@@ -924,7 +915,7 @@ har= 300.19*10^3;
 uar= 214.07*10^3; 
 cpar= 1.005*10^3; 
 cvar= 0.718*10^3; 
-kint(jei)=cpar/cvar; % Kint dos gases no coletor de admiss„o;
+kint(jei)=cpar/cvar; % Kint dos gases no coletor de admiss√£o;
 phoar=1.184; % 
 var=1/phoar  ; % SHAPIRO MORAN
 
@@ -936,7 +927,7 @@ hhei(jei)=(khohi*(Vi(jei)^(-0.06))*((p_cyla(jei)/100000)^(0.8))*(T_cyla(jei)^(-0
  
 %NISHIWAKI
  
-hhi(jei)=(584*(b^(-0.193))*((upmean*((p_cyla(jei)/100000)/0.9807))^(0.807))*(T_cyla(jei))^(-0.534))*1.161111; % TRANSFORMA«√O DE KCAL/H PARA J/S
+hhi(jei)=(584*(b^(-0.193))*((upmean*((p_cyla(jei)/100000)/0.9807))^(0.807))*(T_cyla(jei))^(-0.534))*1.161111; % TRANSFORMA√á√ÉO DE KCAL/H PARA J/S
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
@@ -946,8 +937,8 @@ dVdti(jei)=dVdthetai(jei);
 
 if padm>p_cyla(jei)
       
-    if (p_cyla(jei)/padm)<=((2/(kint(jei)+1))^(kint(jei)/(kint(jei)-1))) % ESCOAMENTO S‘NICO / SUPERSONICO
-%       if (p_cyla(jei)/padm)<=((2/(kcili(jei)+1))^(kcili(jei)/(kcili(jei)-1))) % ESCOAMENTO S‘NICO / SUPERSONICO
+    if (p_cyla(jei)/padm)<=((2/(kint(jei)+1))^(kint(jei)/(kint(jei)-1))) % ESCOAMENTO S√îNICO / SUPERSONICO
+%       if (p_cyla(jei)/padm)<=((2/(kcili(jei)+1))^(kcili(jei)/(kcili(jei)-1))) % ESCOAMENTO S√îNICO / SUPERSONICO
   
      dmdti(jei)=((Cdi(jfi)*Aeffi(jfi)*padm/sqrt(Rar*Tadm))*sqrt(kint(jei))*((2/(kint(jei)+1))^((kint(jei)+1)/(2*(kint(jei)-1)))))*n3;
         
@@ -959,7 +950,7 @@ if padm>p_cyla(jei)
      
     end
     
-        else  % p_cyl È MAIOR que padm
+        else  % p_cyl √© MAIOR que padm
    
             
                 if (padm/p_cyla(jei))<=((2/(kcili(jei)+1))^(kcili(jei)/(kcili(jei)-1)))
@@ -1010,7 +1001,7 @@ IntervaloCruz= thetafve-thetaava;
     
 else
     
-% ff(ir)=mo(nx6+1)/mi(nx5+1) ;   % mo(1) >> … a massa no cilindro no instante em que vai Abrir valvula de adimiss„o AVA, ou seja, vai comeÁar o Overlap
+% ff(ir)=mo(nx6+1)/mi(nx5+1) ;   % mo(1) >> √â a massa no cilindro no instante em que vai Abrir valvula de adimiss√£o AVA, ou seja, vai come√ßar o Overlap
 ff(ir)=(mo(nx6+1)+mei(nx6+1))/(mi(nx5+1))
 pff(ir)=p_cyla(nx5+1); 
 Tff(ir)=T_cyla(nx5+1); 
@@ -1030,7 +1021,6 @@ ir=ir+1;
 
 end
 
-
 dQdthetae=dQdthetae*(180/pi());
 dQdthetao=dQdthetao*(180/pi());
 dQdthetaa=dQdthetaa*(180/pi());
@@ -1048,64 +1038,63 @@ WE=U4-U5 % Expansion work for polytropic process
 neta_v=(mi(nx5+1)-mei(nx6+1))/(phoar*Vd)
 % neta_i = Wt/(mf*PCI)
 
-
 % PLOT OF GRAPHICS%
 
 if thetaava ==thetafve 
     
-% figure;plot(thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'blue','linewidth',1.6);title('PRESS√O AP”S AVA'),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
-% figure;plot(thetai(1:(nx5+1)),T_cyla(1:(nx5+1)),'green','linewidth',1.6);title('TEMPERATURA AP”S AVA'),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'blue','linewidth',1.6);title('PRESS√ÉO AP√ìS AVA'),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetai(1:(nx5+1)),T_cyla(1:(nx5+1)),'green','linewidth',1.6);title('TEMPERATURA AP√ìS AVA'),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
 % figure;plot(thetai(1:(nx5+1)),dmdti(1:(nx5+1)),'blue','linewidth',1.6);title('DMDT'),grid on,hold on
-% figure;plot(thetai(1:(nx5+1)),mi(1:(nx5+1)),'blue','linewidth',1.6);title('VARIA«√O DA MASSA NO CILINDRO'),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetai(1:(nx5+1)),mi(1:(nx5+1)),'blue','linewidth',1.6);title('VARIA√á√ÉO DA MASSA NO CILINDRO'),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
 % 
-% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'blue','linewidth',1.6);title('PRESS√O AP”S AVE'),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red','linewidth',1.6);title('TEMPERATURA AP”S AVE'),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'blue','linewidth',1.6);title('DMDT'),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'red','linewidth',1.6);title('VARIA«√O DA MASSA NO CILINDRO'),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'blue','linewidth',1.6);title('PRESS√ÉO AP√ìS AVE'),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red','linewidth',1.6);title('TEMPERATURA AP√ìS AVE'),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'blue','linewidth',1.6);title('DMDT'),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'red','linewidth',1.6);title('VARIA√á√ÉO DA MASSA NO CILINDRO'),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
 % 
-% figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red',thetai(1:(nx6+1)),dmdti(1:(nx6+1)),'red','linewidth',1.8);title('TAXA COMPLETA DA VAZ√O DE MASSA NO ESCAPE '),xlabel('\theta (∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red',thetai(1:(nx6+1)),dmdti(1:(nx6+1)),'red','linewidth',1.8);title('TAXA COMPLETA DA VAZ√ÉO DE MASSA NO ESCAPE '),xlabel('\theta (¬∞CA)'),ylabel('xxxx (xxx)'),grid on,hold on
 
 else
     
-% figure;plot(mee,'red','linewidth',1.8);title('MASSA ACUMULADA NO COLETOR DE ESCAPE ( Backflow)'),xlabel('\theta (∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
- figure;plot(mei,'blue','linewidth',1.8);title('MASSA ACUMULADA NO COLETOR DE ADMISS√O ( Backflow)'),xlabel('\theta (∞CA)'),ylabel('Massa (Mg)'),grid on,hold on
+% figure;plot(mee,'red','linewidth',1.8);title('MASSA ACUMULADA NO COLETOR DE ESCAPE ( Backflow)'),xlabel('\theta (¬∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
+ figure;plot(mei,'blue','linewidth',1.8);title('MASSA ACUMULADA NO COLETOR DE ADMISS√ÉO ( Backflow)'),xlabel('\theta (¬∞CA)'),ylabel('Massa (Mg)'),grid on,hold on
 % 
-% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'red','linewidth',1.8);title('PRESS√O AP”S AVE AT… A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (∞CA)'),ylabel('Press„o (Pa)'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red','linewidth',1.8);title('TEMPERATURA AP”S AVE AT… A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red','linewidth',1.8);title('TAXA MASSICA NO CILINDRO AT… A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (∞CA)'),ylabel('Fluxo de Massa (Kg/∞CA)'),grid on,hold on
- figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'red','linewidth',1.8);title('VARIA«√O DA MASSA NO CILINDRO AT… A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'red','linewidth',1.8);title('PRESS√ÉO AP√ìS AVE AT√â A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (Pa)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red','linewidth',1.8);title('TEMPERATURA AP√ìS AVE AT√â A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (¬∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red','linewidth',1.8);title('TAXA MASSICA NO CILINDRO AT√â A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (¬∞CA)'),ylabel('Fluxo de Massa (Kg/¬∞CA)'),grid on,hold on
+ figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'red','linewidth',1.8);title('VARIA√á√ÉO DA MASSA NO CILINDRO AT√â A AVA (INICIO DO OVERLLAPING)'),xlabel('\theta (¬∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
 % 
-% figure;plot(thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'blue','linewidth',1.8);title('PRESS√O NO CILINDRO AP”S T…RMINO DO OVERLAPPING'),xlabel('\theta (∞CA)'),ylabel('Press„o (Pa)'),grid on,hold on
-% figure;plot(thetai(1:(nx5+1)),T_cyla(1:(nx5+1)),'green','linewidth',1.8);title('TEMPERATURA NO CILINDRO AP”S T…RMINO DO OVERLAPPING'),xlabel('\theta (∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
- figure;plot(thetai(1:(nx5+1)),dmdti(1:(nx5+1)),'blue','linewidth',1.8);title('VAZ√O M¡SSICA DE AR AP”S T…RMINO DO OVERLAPPING'),xlabel('\theta (∞CA)'),ylabel('Fluxo de Massa (Kg/∞CA)'),grid on,hold on
-% figure;plot(thetai(1:(nx5+1)),mi(1:(nx5+1)),'blue','linewidth',1.8);title('VARIA«√O DA MASSA NO CILINDRO AP”S T…RMINO DO OVERLAPPING'),xlabel('\theta (∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
+% figure;plot(thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'blue','linewidth',1.8);title('PRESS√ÉO NO CILINDRO AP√ìS T√âRMINO DO OVERLAPPING'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (Pa)'),grid on,hold on
+% figure;plot(thetai(1:(nx5+1)),T_cyla(1:(nx5+1)),'green','linewidth',1.8);title('TEMPERATURA NO CILINDRO AP√ìS T√âRMINO DO OVERLAPPING'),xlabel('\theta (¬∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
+ figure;plot(thetai(1:(nx5+1)),dmdti(1:(nx5+1)),'blue','linewidth',1.8);title('VAZ√ÉO M√ÅSSICA DE AR AP√ìS T√âRMINO DO OVERLAPPING'),xlabel('\theta (¬∞CA)'),ylabel('Fluxo de Massa (Kg/¬∞CA)'),grid on,hold on
+% figure;plot(thetai(1:(nx5+1)),mi(1:(nx5+1)),'blue','linewidth',1.8);title('VARIA√á√ÉO DA MASSA NO CILINDRO AP√ìS T√âRMINO DO OVERLAPPING'),xlabel('\theta (¬∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
 % 
-% figure;plot(thetao(1:(nx6+1)),p_cylo(1:(nx6+1)),'black','linewidth',1.8);title('PRESS√O GASES DURANTE O OVERLLAPING'),xlabel('\theta (∞CA)'),ylabel('Press„o (Pa)'),grid on,hold on
-% figure;plot(thetao(1:(nx6+1)),T_cylo(1:(nx6+1)),'black','linewidth',1.8);title('TEMPERATURA GASES DURANTE O OVERLLAPING'),xlabel('\theta (∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
- figure;plot(thetao(1:(nx6+1)),mo(1:(nx6+1)),'black','linewidth',1.8);title('VARIA«√O DA MASSA DOS GASES NO CILINDRO DURANTE O OVERLLAPING'),xlabel('\theta (∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
+% figure;plot(thetao(1:(nx6+1)),p_cylo(1:(nx6+1)),'black','linewidth',1.8);title('PRESS√ÉO GASES DURANTE O OVERLLAPING'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (Pa)'),grid on,hold on
+% figure;plot(thetao(1:(nx6+1)),T_cylo(1:(nx6+1)),'black','linewidth',1.8);title('TEMPERATURA GASES DURANTE O OVERLLAPING'),xlabel('\theta (¬∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
+ figure;plot(thetao(1:(nx6+1)),mo(1:(nx6+1)),'black','linewidth',1.8);title('VARIA√á√ÉO DA MASSA DOS GASES NO CILINDRO DURANTE O OVERLLAPING'),xlabel('\theta (¬∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
 
 thetacp=thetacp-720;
 thetai=thetai-720;
-% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'green',thetao(1:(nx6+1)),p_cylo(1:(nx6+1)),'green',thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'green','linewidth',1.8);title('VARIA«√O DA PRESS√O DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Press„o (Pa)'),grid on,hold on
- figure;plot(thetai(1:(nx5+1)),T_cyla(1:(nx5+1)),'red',thetacp(1:(z1+1)),Tf(1:(z1+1)),'red',thetac(1:nx+1),Tc(1:nx+1),'red',thetaep(1:(hx+1)),Tfe(1:(hx+1)),'red',thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red',thetao(1:(nx6+1)),T_cylo(1:(nx6+1)),'red','linewidth',1.8);title('VARIA«√O DA TEMPERATURA DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'green',thetao(1:(nx6+1)),p_cylo(1:(nx6+1)),'green',thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'green','linewidth',1.8);title('VARIA√á√ÉO DA PRESS√ÉO DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (Pa)'),grid on,hold on
+ figure;plot(thetai(1:(nx5+1)),T_cyla(1:(nx5+1)),'red',thetacp(1:(z1+1)),Tf(1:(z1+1)),'red',thetac(1:nx+1),Tc(1:nx+1),'red',thetaep(1:(hx+1)),Tfe(1:(hx+1)),'red',thetae(1:(nx4+1)),T_cyle(1:(nx4+1)),'red',thetao(1:(nx6+1)),T_cylo(1:(nx6+1)),'red','linewidth',1.8);title('VARIA√á√ÉO DA TEMPERATURA DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
  
- figure;plot(thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',thetacp(1:(z1+1)),pf(1:(z1+1)),'red',thetac(1:nx+1),pc(1:nx+1),'red',thetaep(1:(hx+1)),pfe(1:(hx+1)),'red',thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',thetao(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.8);title('VARIA«√O DA TEMPERATURA DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
+ figure;plot(thetai(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',thetacp(1:(z1+1)),pf(1:(z1+1)),'red',thetac(1:nx+1),pc(1:nx+1),'red',thetaep(1:(hx+1)),pfe(1:(hx+1)),'red',thetae(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',thetao(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.8);title('VARIA√á√ÉO DA TEMPERATURA DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Temperatura (K)'),grid on,hold on
  
- figure;plot(Vi(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',Vfcp(1:(z1+1)),pf(1:(z1+1)),'red',Vc(1:nx+1),pc(1:nx+1),'red',Vep(1:(hx+1)),pfe(1:(hx+1)),'red',Ve(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',Vo(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.2);title('VARIA«√O DA PRESS√O DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Press„o (K)'),grid on,hold on
+ figure;plot(Vi(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',Vfcp(1:(z1+1)),pf(1:(z1+1)),'red',Vc(1:nx+1),pc(1:nx+1),'red',Vep(1:(hx+1)),pfe(1:(hx+1)),'red',Ve(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',Vo(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.2);title('VARIA√á√ÉO DA PRESS√ÉO DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (K)'),grid on,hold on
 
- figure;plot(Vi(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',Vfcp(1:(z1+1)),pf(1:(z1+1)),'red',Vep(1:(hx+1)),pfe(1:(hx+1)),'red',Ve(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',Vo(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.2);title('VARIA«√O DA PRESS√O DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Press„o (K)'),grid on,hold on
- figure;plot(log(Vi(1:(nx5+1))),log(p_cyla(1:(nx5+1))),'red',log(Vfcp(1:(z1+1))),log(pf(1:(z1+1))),'red',log(Vc(1:nx+1)),log(pc(1:nx+1)),'red',log(Vep(1:(hx+1))),log(pfe(1:(hx+1))),'red',log(Ve(1:(nx4+1))),log(p_cyle(1:(nx4+1))),'red',log(Vo(1:(nx6+1))),log(p_cylo(1:(nx6+1))),'red','linewidth',1.2);title('VARIA«√O DA PRESS√O DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Press„o (K)'),grid on,hold on
- figure;plot((Vi(1:(nx5+1))),log(p_cyla(1:(nx5+1))),(Vfcp(1:(z1+1))),log(pf(1:(z1+1))),'black',(Ve(1:(nx4+1))),log(p_cyle(1:(nx4+1))),'black',(Vo(1:(nx6+1))),log(p_cylo(1:(nx6+1))),'black','linewidth',1.6);title('VARIA«√O DA PRESS√O DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Press„o (K)'),grid on,hold on
+ figure;plot(Vi(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',Vfcp(1:(z1+1)),pf(1:(z1+1)),'red',Vep(1:(hx+1)),pfe(1:(hx+1)),'red',Ve(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',Vo(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.2);title('VARIA√á√ÉO DA PRESS√ÉO DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (K)'),grid on,hold on
+ figure;plot(log(Vi(1:(nx5+1))),log(p_cyla(1:(nx5+1))),'red',log(Vfcp(1:(z1+1))),log(pf(1:(z1+1))),'red',log(Vc(1:nx+1)),log(pc(1:nx+1)),'red',log(Vep(1:(hx+1))),log(pfe(1:(hx+1))),'red',log(Ve(1:(nx4+1))),log(p_cyle(1:(nx4+1))),'red',log(Vo(1:(nx6+1))),log(p_cylo(1:(nx6+1))),'red','linewidth',1.2);title('VARIA√á√ÉO DA PRESS√ÉO DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (K)'),grid on,hold on
+ figure;plot((Vi(1:(nx5+1))),log(p_cyla(1:(nx5+1))),(Vfcp(1:(z1+1))),log(pf(1:(z1+1))),'black',(Ve(1:(nx4+1))),log(p_cyle(1:(nx4+1))),'black',(Vo(1:(nx6+1))),log(p_cylo(1:(nx6+1))),'black','linewidth',1.6);title('VARIA√á√ÉO DA PRESS√ÉO DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (K)'),grid on,hold on
 
- figure;plot(Vi(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',Vfcp(1:(z1+1)),pf(1:(z1+1)),'red',Vep(1:(hx+1)),pfe(1:(hx+1)),'red',Ve(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',Vo(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.2);title('VARIA«√O DA PRESS√O DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Press„o (K)'),grid on,hold on
+ figure;plot(Vi(1:(nx5+1)),p_cyla(1:(nx5+1)),'red',Vfcp(1:(z1+1)),pf(1:(z1+1)),'red',Vep(1:(hx+1)),pfe(1:(hx+1)),'red',Ve(1:(nx4+1)),p_cyle(1:(nx4+1)),'red',Vo(1:(nx6+1)),p_cylo(1:(nx6+1)),'red','linewidth',1.2);title('VARIA√á√ÉO DA PRESS√ÉO DO GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Press√£o (K)'),grid on,hold on
 
  
- figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'green',thetao(1:(nx6+1)),mo(1:(nx6+1)),'green',thetai(1:(nx5+1)),mi(1:(nx5+1)),'green','linewidth',1.8);title('VARIA«√O DA MASSA DE GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
+ figure;plot(thetae(1:(nx4+1)),me(1:(nx4+1)),'green',thetao(1:(nx6+1)),mo(1:(nx6+1)),'green',thetai(1:(nx5+1)),mi(1:(nx5+1)),'green','linewidth',1.8);title('VARIA√á√ÉO DA MASSA DE GASES NO CILINDRO DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Massa (Kg)'),grid on,hold on
 % 
- figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red',thetao(1:(nx6+1)),dmdteo(1:(nx6+1)),'red','linewidth',1.8);title('TAXA COMPLETA DA VAZ√O DE MASSA NO ESCAPE '),xlabel('\theta (∞CA)'),ylabel('Fluxo de Massa (Kg/∞CA)'),grid on,hold on
- figure;plot(thetao(1:(nx6+1)),dmdtio(1:(nx6+1)),'blue',thetai(1:(nx5+1)),dmdti(1:(nx5+1)),'blue','linewidth',1.8);title('TAXA COMPLETA DA VAZ√O DE MASSA NA ADMISS√O'),xlabel('\theta (∞CA)'),ylabel('Fluxo de Massa (Kg/∞CA)'),grid on,hold on
- figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red',thetao(1:(nx6+1)),dmdteo(1:(nx6+1)),'red',thetao(1:(nx6+1)),dmdtio(1:(nx6+1)),'blue',thetai(1:(nx5+1)),dmdti(1:(nx5+1)),'blue','linewidth',1.8);title('TAXA COMPLETA DOS FLUXOS DE MASSA ADM E ESCAPE DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (∞CA)'),ylabel('Fluxo de Massa (Kg/∞CA)'),grid on,hold on
- figure;plot(thetao(1:(nx6+1)),dmdtio(1:(nx6+1)),'blue',thetao(1:(nx6+1)),dmdteo(1:(nx6+1)),'red','linewidth',1.8);title('TAXA DE MASSA ADMISS√O E TAXA DE MASSA ESCAPE ( DURANTE OVERLAPPING)'),xlabel('\theta (∞CA)'),ylabel('Fluxo de Massa (Kg/∞CA)'),grid on,hold on
+ figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red',thetao(1:(nx6+1)),dmdteo(1:(nx6+1)),'red','linewidth',1.8);title('TAXA COMPLETA DA VAZ√ÉO DE MASSA NO ESCAPE '),xlabel('\theta (¬∞CA)'),ylabel('Fluxo de Massa (Kg/¬∞CA)'),grid on,hold on
+ figure;plot(thetao(1:(nx6+1)),dmdtio(1:(nx6+1)),'blue',thetai(1:(nx5+1)),dmdti(1:(nx5+1)),'blue','linewidth',1.8);title('TAXA COMPLETA DA VAZ√ÉO DE MASSA NA ADMISS√ÉO'),xlabel('\theta (¬∞CA)'),ylabel('Fluxo de Massa (Kg/¬∞CA)'),grid on,hold on
+ figure;plot(thetae(1:(nx4+1)),dmdte(1:(nx4+1)),'red',thetao(1:(nx6+1)),dmdteo(1:(nx6+1)),'red',thetao(1:(nx6+1)),dmdtio(1:(nx6+1)),'blue',thetai(1:(nx5+1)),dmdti(1:(nx5+1)),'blue','linewidth',1.8);title('TAXA COMPLETA DOS FLUXOS DE MASSA ADM E ESCAPE DURANTE TODA A FASE ABERTA DO CICLO'),xlabel('\theta (¬∞CA)'),ylabel('Fluxo de Massa (Kg/¬∞CA)'),grid on,hold on
+ figure;plot(thetao(1:(nx6+1)),dmdtio(1:(nx6+1)),'blue',thetao(1:(nx6+1)),dmdteo(1:(nx6+1)),'red','linewidth',1.8);title('TAXA DE MASSA ADMISS√ÉO E TAXA DE MASSA ESCAPE ( DURANTE OVERLAPPING)'),xlabel('\theta (¬∞CA)'),ylabel('Fluxo de Massa (Kg/¬∞CA)'),grid on,hold on
 
 jii=(nx5+1);
 jiii=1;
@@ -1134,9 +1123,9 @@ jiii=jiii+1;
 end
 
 % figure;plot(thetae(1:(nx4+1)),YDe(1:(nx4+1)),'red','linewidth',1.8);title('Lift Escape '),ylabel('Y/D (Adimensional)'),grid on,hold on
-% figure;plot(thetaii(1:(nx5+1)),YDi(1:(nx5+1)),'blue','linewidth',1.8);title('Lift Admiss„o '),ylabel('Y/D (Adimensional)'),grid on,hold on
-% figure;plot(thetae(1:(nx4+1)),YDe(1:(nx4+1)),'red',thetaoi(1:(nx6+1)),YDe(1:(nx6+1)),'red',thetao(1:(nx6+1)),YDi(1:(nx6+1)),'blue',thetaii(1:(nx5+1)),YDi(1:(nx5+1)),'blue','linewidth',1.8);title('Lift dos Cruzamentos de V·lvula '),xlabel('\theta (∞CA)'),ylabel('Y/D (Adimensional)'),grid on,hold on
-% figure;plot(thetao(1:(nx6+1)),YDi(1:(nx6+1)),'blue',thetaoi(1:(nx6+1)),YDe(1:(nx6+1)),'red','linewidth',1.8);title('Lift dos Cruzamentos de V·lvula '),xlabel('\theta (∞CA)'),ylabel('Y/D (Adimensional)'),grid on,hold on
+% figure;plot(thetaii(1:(nx5+1)),YDi(1:(nx5+1)),'blue','linewidth',1.8);title('Lift Admiss√£o '),ylabel('Y/D (Adimensional)'),grid on,hold on
+% figure;plot(thetae(1:(nx4+1)),YDe(1:(nx4+1)),'red',thetaoi(1:(nx6+1)),YDe(1:(nx6+1)),'red',thetao(1:(nx6+1)),YDi(1:(nx6+1)),'blue',thetaii(1:(nx5+1)),YDi(1:(nx5+1)),'blue','linewidth',1.8);title('Lift dos Cruzamentos de V√°lvula '),xlabel('\theta (¬∞CA)'),ylabel('Y/D (Adimensional)'),grid on,hold on
+% figure;plot(thetao(1:(nx6+1)),YDi(1:(nx6+1)),'blue',thetaoi(1:(nx6+1)),YDe(1:(nx6+1)),'red','linewidth',1.8);title('Lift dos Cruzamentos de V√°lvula '),xlabel('\theta (¬∞CA)'),ylabel('Y/D (Adimensional)'),grid on,hold on
 
 % figure;plot(thetac(1:(nx)),dQdthetaw(1:(nx)),'red','linewidth',1.8),grid on,hold on
 % figure;plot(thetae(1:(nx4+1)),dQdthetae(1:(nx4+1)),'red','linewidth',1.8),grid on,hold on
@@ -1145,14 +1134,14 @@ end
 % 
  
 % 
- figure;plot(thetac(1:nx),dWdtheta(1:nx),'red','linewidth',1.8);title(' TAXA DO TRABALHO FASE FECHADA (COMBUST√O) '),grid on,hold on
-% figure;plot(thetac(1:nx),dQdthetaw(1:nx),'red','linewidth',1.8);title('TAXA DE TROCA DE CALOR COM AS PAREDES (COMBUST√O) '),grid on,hold on
-% figure;plot(thetac(1:nx),dQdtheta(1:nx),'red','linewidth',1.8);title('TAXA TOTAL DE TROCA DE CALOR (QCOMBUST√O - QPAREDE'),grid on,hold on
+ figure;plot(thetac(1:nx),dWdtheta(1:nx),'red','linewidth',1.8);title(' TAXA DO TRABALHO FASE FECHADA (COMBUST√ÉO) '),grid on,hold on
+% figure;plot(thetac(1:nx),dQdthetaw(1:nx),'red','linewidth',1.8);title('TAXA DE TROCA DE CALOR COM AS PAREDES (COMBUST√ÉO) '),grid on,hold on
+% figure;plot(thetac(1:nx),dQdtheta(1:nx),'red','linewidth',1.8);title('TAXA TOTAL DE TROCA DE CALOR (QCOMBUST√ÉO - QPAREDE'),grid on,hold on
 % 
-% figure;plot(thetac(1:nx),dPdtheta(1:nx),'red','linewidth',1.8);title(' TAXA DE VARIA«√O DA PRESS√O ( COMBUST√O)'),grid on,hold on
-% figure;plot(thetac(1:nx),dTdtheta(1:nx),'red','linewidth',1.8);title(' TAXA DE VARIA«√O DA TEMPERATURA (COMBUST√O) '),grid on,hold on
+% figure;plot(thetac(1:nx),dPdtheta(1:nx),'red','linewidth',1.8);title(' TAXA DE VARIA√á√ÉO DA PRESS√ÉO ( COMBUST√ÉO)'),grid on,hold on
+% figure;plot(thetac(1:nx),dTdtheta(1:nx),'red','linewidth',1.8);title(' TAXA DE VARIA√á√ÉO DA TEMPERATURA (COMBUST√ÉO) '),grid on,hold on
 % 
-figure;plot(thetac(1:nx),pc(1:nx),'red','linewidth',1.8);title(' PRESS√O '),grid on,hold on
+figure;plot(thetac(1:nx),pc(1:nx),'red','linewidth',1.8);title(' PRESS√ÉO '),grid on,hold on
 figure;plot(thetac(1:nx),Tc(1:nx),'red','linewidth',1.8);title(' TEMPERATURA '),grid on,hold on
 figure;plot(thetac(1:nx),hh(1:nx),'red','linewidth',1.8);title(' COEFICIENTE DE PELICULA '),grid on,hold on
 % 
